@@ -27,25 +27,23 @@ module IssuesHelper
       "<strong>#{@cached_label_due_date}</strong>: #{format_date(issue.due_date)}<br />" +
       "<strong>#{@cached_label_assigned_to}</strong>: #{issue.assigned_to}<br />" +
       "<strong>#{@cached_label_priority}</strong>: #{issue.priority.name}"
-    
-    display_limit = 4 # That's max for a sane tooltip
-    
+
     unless issue.relations_to.empty?
-      content += "<br />" + issue.relations_to.first(display_limit).map do |rel|
-        "<strong>#{l(rel.label_for(issue))}</strong>: #{link_to_issue(rel.issue_from)}"
-      end.join("<br />")
-      display_limit -= issue.relations_to.count 
+      content += "<ul>" + issue.relations_to.map do |rel|
+        "<li><strong>%s</strong>%s<span class=\"remove\">%s</span>" % [
+          l(rel.label_for(issue)),
+          link_to_issue(rel.issue_from),
+          "<a href="">remove</a>"
+        ]
+      end.join + "</ul>"
     end
-    
+
     unless issue.relations_from.empty?
-      new_limit = display_limit < 0 ? 0 : display_limit
-      content += "<br />" + issue.relations_from.first(new_limit).map do |rel|
+      content += "<br />" + issue.relations_from.map do |rel|
         "<strong>#{l(rel.label_for(issue))}</strong>: #{link_to_issue(rel.issue_to)}"
       end.join("<br />")
-      display_limit -= issue.relations_from.count
     end
-    
-    content += "<br /><i>There are #{0-display_limit} more relations</i>" if display_limit < 0
+
     content
   end
 end
