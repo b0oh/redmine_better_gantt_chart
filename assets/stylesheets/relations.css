@@ -1,0 +1,22 @@
+.tooltip ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.tooltip ul>li {
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+}
+.tooltip ul>li>span.remove {
+  display: inline-block;
+  float: right;
+}
+.tooltip ul>li>span.remove>a {
+  background-image: url("../../../../images/delete.png");
+  display: block;
+  height: 16px;
+  overflow: hidden;
+  text-indent: -1000px;
+  width: 16px;
+}

@@ -1,5 +1,6 @@
 <%= javascript_include_tag "raphael-min.js", :plugin => "redmine_better_gantt_chart" %>
 <%= javascript_include_tag "raphael.arrow.js", :plugin => "redmine_better_gantt_chart" %>
+<%= stylesheet_link_tag "relations.css", :plugin => "redmine_better_gantt_chart" %>
 <% @gantt.view = self %>
 <h2><%= @query.new_record? ? l(:label_gantt) : h(@query.name) %></h2>
 

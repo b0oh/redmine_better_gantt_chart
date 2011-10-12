@@ -30,18 +30,26 @@ module IssuesHelper
 
     unless issue.relations_to.empty?
       content += "<ul>" + issue.relations_to.map do |rel|
-        "<li><strong>%s</strong>%s<span class=\"remove\">%s</span>" % [
+        "<li><strong>%s</strong> %s <span class=\"remove\">%s</span>" % [
           l(rel.label_for(issue)),
           link_to_issue(rel.issue_from),
-          "<a href="">remove</a>"
+          link_to('remove', {:controller => 'relations', :action => 'destroy', :issue_id => issue, :id => rel})
         ]
       end.join + "</ul>"
     end
 
+    if not issue.relations_to.empty? and not issue.relations_from.empty?
+      content << "<hr />"
+    end
+
     unless issue.relations_from.empty?
-      content += "<br />" + issue.relations_from.map do |rel|
-        "<strong>#{l(rel.label_for(issue))}</strong>: #{link_to_issue(rel.issue_to)}"
-      end.join("<br />")
+      content += "<ul>" << issue.relations_from.map do |rel|
+        "<li><strong>%s</strong> %s <span class=\"remove\">%s</span>" % [
+          l(rel.label_for(issue)),
+          link_to_issue(rel.issue_to),
+          link_to('remove', { :controller => 'relations', :action => 'remove', :id => 1 })
+        ]
+      end.join << "</ul>"
     end
 
     content
