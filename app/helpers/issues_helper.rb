@@ -29,13 +29,13 @@ module IssuesHelper
       "<strong>#{@cached_label_priority}</strong>: #{issue.priority.name}"
 
     unless issue.relations_to.empty?
-      content += "<ul>" + issue.relations_to.map do |rel|
+      content += "<ul>" << issue.relations_to.map do |rel|
         "<li><strong>%s</strong> %s <span class=\"remove\">%s</span>" % [
           l(rel.label_for(issue)),
           link_to_issue(rel.issue_from),
           link_to('remove', {:controller => 'relations', :action => 'destroy', :issue_id => issue, :id => rel})
         ]
-      end.join + "</ul>"
+      end.join << "</ul>"
     end
 
     if not issue.relations_to.empty? and not issue.relations_from.empty?
@@ -47,11 +47,12 @@ module IssuesHelper
         "<li><strong>%s</strong> %s <span class=\"remove\">%s</span>" % [
           l(rel.label_for(issue)),
           link_to_issue(rel.issue_to),
-          link_to('remove', { :controller => 'relations', :action => 'remove', :id => 1 })
+          link_to('remove', {:controller => 'relations', :action => 'destroy', :issue_id => issue, :id => rel})
         ]
       end.join << "</ul>"
     end
 
+    content += '<div><button class="precedes" data-issue-id="%s">Предстоит</button><button class="follow" data-issue-id="%s">Следует</button></div>' % [issue.id, issue.id]
     content
   end
 end
