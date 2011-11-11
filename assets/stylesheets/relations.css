@@ -4,6 +4,10 @@
   z-index: 25;
 }
 
+div.tooltip:hover span.tip {
+  left: 0px;
+}
+
 .tooltip ul {
   list-style: none;
   margin: 0;
